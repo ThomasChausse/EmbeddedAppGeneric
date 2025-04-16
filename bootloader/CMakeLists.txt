@@ -6,28 +6,25 @@ project(CustomBootloader VERSION 1.0 LANGUAGES C)  # Project name and ersion
 
 set(BOOTLOADER_PROJECT_NAME "bootloader")
 
+file(GLOB_RECURSE BOOTLOADER_SOURCES
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/*.c
+    ${CMAKE_ROO}
+)
 add_executable(${BOOTLOADER_PROJECT_NAME}.elf
     ${BOOTLOADER_PROJECT_NAME}.c
     ${BOOTLOADER_SOURCES}
 )
 
-file(GLOB_RECURSE BOOTLOADER_SOURCES
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/*.c
-    ${CMAKE_SOURCE_DIR}/stm32/it/*.c
-    ${CMAKE_SOURCE_DIR}/stm32/sys/*.c
-    ${CMAKE_SOURCE_DIR}/stm32/startup/*.s
-)
+target_link_libraries(${BOOTLOADER_PROJECT_NAME}.elf PRIVATE stm32_platform)
 
 # Include paths
 target_include_directories(${BOOTLOADER_PROJECT_NAME}.elf PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/inc
-    ${CMAKE_SOURCE_DIR}/stm32/drivers
-    ${CMAKE_SOURCE_DIR}/stm32/sys
-    ${CMAKE_SOURCE_DIR}/stm32/it
+   ${STM32_SOFTWARE_PATH}/Drivers/CMSIS/Include
+    ${STM32_SOFTWARE_PATH}/Drivers/CMSIS/Device/ST/STM32F4xx/Include
 )
 
-
-add_custom_command(TARGET ${BOOTLOADER_PROJECT_NAME} POST_BUILD
+add_custom_command(TARGET ${BOOTLOADER_PROJECT_NAME}.elf POST_BUILD
   COMMAND arm-none-eabi-size bootloader.elf
   COMMAND arm-none-eabi-objcopy -O binary bootloader.elf bootloader.bin
   COMMENT "Generating bootloader.bin"

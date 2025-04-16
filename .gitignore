@@ -2,6 +2,7 @@
 *.d
 
 # Compiled Object files
+**build
 *.slo
 *.lo
 *.o
@@ -32,6 +33,6 @@
 *.app
 *.s
 *.ld
-drivers/
+drivers
 **Makefile
 **cmake_install.cmake

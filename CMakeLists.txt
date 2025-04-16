@@ -1,14 +1,23 @@
 cmake_minimum_required(VERSION 3.14)  # Minimum CMake version
+set(CMAKE_CXX_STANDARD 17)               # Use C++17
+set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 project(EmbeddedCustomBootloader VERSION 1.0 LANGUAGES CXX)  # Project name and version
 
-if(NOT CMAKE_SYSTEM_PROCESSOR STREQUAL "arm")
-  message(FATAL_ERROR "Supported architectures : arm (Cortex-mX)")
-endif()
-message(STATUS "Root dir: ${CMAKE_SOURCE_DIR}")
+include(toolchain.cmake)
 
-set(CMAKE_CXX_STANDARD 17)               # Use C++17
-set(CMAKE_CXX_STANDARD_REQUIRED True)
+option(BUILD_BOOTLOADER "Build bootloader" ON)
+option(BUILD_APP "Build main app" OFF)
+
+add_subdirectory(platform)
+
+if(BUILD_BOOTLOADER)
+  add_subdirectory(bootloader)
+endif()
+
+if(BUILD_APP)
+add_subdirectory(App)
+endif()
 
 string(TOLOWER "${CMAKE_BUILD_TYPE}" BUILD_TYPE_LOWER)
 message(STATUS "Build type : ${BUILD_TYPE_LOWER}")
