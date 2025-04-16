@@ -1,17 +1,19 @@
-message(STATUS "")
-message(STATUS "Platform :   ${CURRENT_PLATFORM}") 
-message(STATUS "")
+message(STATUS "Platform : ${CURRENT_PLATFORM}")
 
 file(GLOB STM32_SOURCES
-    ${CMAKE_SOURCE_DIR}/${CURRENT_PLATFORM}/Core/Src/*.c
-    ${CMAKE_SOURCE_DIR}/${CURRENT_PLATFORM}/Core/Startup/*.s
+    ${CURRENT_PLATFORM}/Core/Src/*.c
+    ${CURRENT_PLATFORM}/Core/Startup/*.s
 )
+
+message(STATUS "Sources found:")
+foreach(file ${STM32_SOURCES})
+  message(STATUS "  ${file}")
+endforeach()
 
 add_library(stm32_platform STATIC ${STM32_SOURCES})
 
 target_include_directories(stm32_platform PUBLIC
-    ${CMAKE_SOURCE_DIR}/${CURRENT_PLATFORM}/Core/Inc
-    ${CMAKE_SOURCE_DIR}/${CURRENT_PLATFORM}/Drivers/CMSIS/Include
-    ${CMAKE_SOURCE_DIR}/${CURRENT_PLATFORM}/Drivers/CMSIS/Device/ST/STM32F4xx/Include
+    ${CURRENT_PLATFORM}/Core/Inc
+    ${CURRENT_PLATFORM}/Drivers/CMSIS/Include
+    ${CURRENT_PLATFORM}/Drivers/CMSIS/Device/ST/STM32F4xx/Include
 )
-
