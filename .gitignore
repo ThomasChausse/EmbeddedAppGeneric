@@ -36,3 +36,4 @@
 drivers
 **Makefile
 **cmake_install.cmake
+platform/stm*
