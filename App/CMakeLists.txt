@@ -1,24 +1,42 @@
-cmake_minimum_required(VERSION 3.14)  # Minimum CMake ersion
-set(CMAKE_CXX_STANDARD 17)               # Use C++17
-set(CMAKE_CXX_STANDARD_REQUIRED True)
+message(STATUS "App/cmakelist says hello!")
 
-project(EmbeddedApp VERSION 1.0 LANGUAGES C CXX ASM)  # Project name and ersion 
+include(${CMAKE_SOURCE_DIR}/linker.cmake)
 
-set(EMBEDDED_APP_PROJECT_NAME "EmbeddedApp")  
+cmake_minimum_required(VERSION 3.14)  # minimum cmake ersion
+set(CMAKE_CXX_STANDARD 17)               # use c++17
+set(CMAKE_CXX_STANDARD_REQUIRED true)
 
-file(GLOB_RECURSE EMBEDDED_APP_SOURCES
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp
+project(App VERSION 1.0 LANGUAGES C ASM)  # project name and ersion
+
+set(APP_PROJECT_NAME "App")
+
+file(GLOB_RECURSE APP_SOURCES
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/*.c*
 )
 
-add_executable(${EMBEDDED_APP_PROJECT_NAME}
-    ${EMBEDDED_APP_PROJECT_NAME}.cpp
-    ${EMBEDDED_APP_SOURCES}
+list(APPEND APP_SOURCES
+    ${CMAKE_CURRENT_SOURCE_DIR}/${APP_PROJECT_NAME}.cpp
 )
 
-target_link_libraries(${EMBEDDED_APP_PROJECT_NAME}.elf PRIVATE stm32_platform)
+message(STATUS "App sources:")
+foreach(SRC ${APP_SOURCES})
+  message(STATUS "  ${SRC}")
+endforeach()
 
-add_custom_command(TARGET ${EMBEDDED_APP_PROJECT_NAME} POST_BUILD
-  COMMAND arm-none-eabi-size EmbeddedApp  
-  COMMENT "Generating bootloader.bin"
-  COMMAND arm-none-eabi-objcopy -O binary EmbeddedApp.elf EmbeddedApp.bin  
+add_executable(${APP_PROJECT_NAME}.elf
+    ${APP_SOURCES}
+)
+
+message(STATUS "linking App with stm32_platform")
+# target_sources(${APP_PROJECT_NAME}.elf PRIVATE $<TARGET_OBJECTS:stm32_platform>)
+
+target_sources(${APP_PROJECT_NAME}.elf PRIVATE
+    $<TARGET_OBJECTS:stm32_platform>
+    $<TARGET_OBJECTS:platform_common>
+)
+
+add_custom_command(TARGET ${APP_PROJECT_NAME}.elf POST_BUILD
+  COMMAND arm-none-eabi-size App.elf
+  COMMAND arm-none-eabi-objcopy -O binary App.elf App.bin
+  COMMENT "Generating ${APP_PROJECT_NAME}.bin"
 )

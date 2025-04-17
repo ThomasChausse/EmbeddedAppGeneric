@@ -23,7 +23,6 @@
 
 message(STATUS "PLATFORM/CMAKELIST says hello!")
 message(STATUS "Platform : ${CURRENT_PLATFORM}")
-
 include(${CMAKE_SOURCE_DIR}/linker.cmake)
 
 # HAL and startup sources (e.g., stm32f4xx_it.c, startup.s)
