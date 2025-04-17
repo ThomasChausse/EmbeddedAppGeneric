@@ -1,5 +1,3 @@
-message(STATUS "bootloader/cmakelist says hello!")
-
 include(${CMAKE_SOURCE_DIR}/linker.cmake)
 
 cmake_minimum_required(VERSION 3.14)  # minimum cmake ersion
@@ -26,7 +24,9 @@ endforeach()
 add_executable(${BOOTLOADER_PROJECT_NAME}.elf
     ${BOOTLOADER_SOURCES}
 )
-
+target_include_directories(${BOOTLOADER_PROJECT_NAME}.elf PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/inc  
+)
 message(STATUS "linking bootloader with stm32_platform")
 # target_sources(${BOOTLOADER_PROJECT_NAME}.elf PRIVATE $<TARGET_OBJECTS:stm32_platform>)
 

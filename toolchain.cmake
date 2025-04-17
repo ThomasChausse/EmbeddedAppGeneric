@@ -13,6 +13,12 @@ add_compile_options(
     -mthumb
     -ffreestanding
     -Wall
+    -ffunction-sections
+    -fdata-sections
+    --sysroot=${SYSROOT}
+    $<$<COMPILE_LANGUAGE:CXX>:-fno-rtti>
+    $<$<COMPILE_LANGUAGE:CXX>:-fno-exceptions>
+    $<$<COMPILE_LANGUAGE:C>:-Wno-unused-parameter>
 )
 
 # # Librairies
@@ -22,7 +28,3 @@ set(CURRENT_PLATFORM "${CMAKE_SOURCE_DIR}/platform/stmf401xe")
 set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 set(CMAKE_C_COMPILER_WORKS TRUE)
 set(CMAKE_CXX_COMPILER_WORKS TRUE)
-set(CMAKE_CXX_COMPILER /usr/bin/arm-none-eabi-g++)
-
-
-

@@ -1,5 +1,3 @@
-message(STATUS "App/cmakelist says hello!")
-
 include(${CMAKE_SOURCE_DIR}/linker.cmake)
 
 cmake_minimum_required(VERSION 3.14)  # minimum cmake ersion

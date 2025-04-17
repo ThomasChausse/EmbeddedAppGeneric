@@ -1,27 +1,3 @@
-# message(STATUS "PLATFORM/CMAKELIST says hello!")
-# message(STATUS "Platform : ${CURRENT_PLATFORM}")
-#
-# include(${CMAKE_SOURCE_DIR}/linker.cmake)
-#
-# file(GLOB STM32_SOURCES
-#     ${CURRENT_PLATFORM}/Core/Src/*stm32*.c
-#     ${CURRENT_PLATFORM}/Core/Startup/*.s
-# )
-#
-# message(STATUS "Sources found:")
-# foreach(FILE ${STM32_SOURCES})
-#   message(STATUS "  ${FILE}")
-# endforeach()
-#
-# add_library(stm32_platform OBJECT ${STM32_SOURCES})
-#
-# target_include_directories(stm32_platform PUBLIC
-#     ${CURRENT_PLATFORM}/Core/Inc
-#     ${CURRENT_PLATFORM}/Drivers/CMSIS/Include
-#     ${CURRENT_PLATFORM}/Drivers/CMSIS/Device/ST/STM32F4xx/Include
-# )
-
-message(STATUS "PLATFORM/CMAKELIST says hello!")
 message(STATUS "Platform : ${CURRENT_PLATFORM}")
 include(${CMAKE_SOURCE_DIR}/linker.cmake)
 
